@@ -1,0 +1,13 @@
+# Virtual environment
+.venv/
+
+# ML model files (ANYWHERE in project)
+*.pkl
+*.joblib
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE
+.idea/
