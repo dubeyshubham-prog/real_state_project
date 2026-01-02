@@ -2,7 +2,6 @@
 .venv/
 
 # ML model files (ANYWHERE in project)
-*.pkl
 *.joblib
 
 # Python cache
