@@ -11,11 +11,11 @@ st.set_page_config(page_title='Recommendation System')
 st.subheader('Recommendation System')
 
 #READ THE PICKLE FILE:
-location_df = pickle.load(open('location_distance.pkl', 'rb'))
-cosine_sim1 = pickle.load(open('cosine_sim1.pkl', 'rb'))
-cosine_sim2 = pickle.load(open('cosine_sim2.pkl', 'rb'))
-cosine_sim3 = pickle.load(open('cosine_sim3.pkl', 'rb'))
-df1 = pickle.load(open('df1.pkl', 'rb'))
+location_df = pickle.load(open('../location_distance.pkl', 'rb'))
+cosine_sim1 = pickle.load(open('../cosine_sim1.pkl', 'rb'))
+cosine_sim2 = pickle.load(open('../cosine_sim2.pkl', 'rb'))
+cosine_sim3 = pickle.load(open('../cosine_sim3.pkl', 'rb'))
+df1 = pickle.load(open('../df1.pkl', 'rb'))
 
 #SHOWING THE DATAFRAME ON STREAMLIT:
 # st.dataframe(location_df)

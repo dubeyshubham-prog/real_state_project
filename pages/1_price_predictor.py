@@ -8,11 +8,11 @@ import os
 st.set_page_config(page_title='Viz Demo')
 
 #LOAD THE DATASET FROM PKL:
-with open('df.pkl', 'rb') as file:
+with open('../df.pkl', 'rb') as file:
     df = pickle.load(file)
 
 #LOAD THE PIPELINE FROM PKL:
-with open('pipelines.pkl','rb') as file:
+with open('../pipelines.pkl','rb') as file:
     pipeline = pickle.load(file)
 
 st.header('Enter your inputs')

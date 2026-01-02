@@ -11,10 +11,10 @@ st.set_page_config(page_title='Plotting Demo')
 st.title('Analytics')
 
 #READING THE DATASET HERE===>
-new_df = pd.read_csv('data_viz1.csv').drop(columns=['Unnamed: 0'])
+new_df = pd.read_csv('../data_viz1.csv').drop(columns=['Unnamed: 0'])
 st.dataframe(new_df)
 
-feature_text = pickle.load(open('feature_text.pkl', 'rb'))
+feature_text = pickle.load(open('../feature_text.pkl', 'rb'))
 #===========================>
 
 #DATA PREPROCESSING SECTION=>
