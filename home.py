@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Real Estate CampusX",
+    page_title="Real Estate Price Predictor",
     page_icon="🏠",
     layout="wide"
 )
@@ -9,7 +9,7 @@ st.set_page_config(
 st.title("🏡 Real Estate Price Prediction System")
 
 st.markdown("""
-Welcome to **Real Estate CampusX**, an end-to-end machine learning application.
+Welcome to **Real Estate Price predictor model**, an end-to-end machine learning application.
 
 ### 🔍 What this app does:
 - Predicts property prices using ML pipelines
@@ -28,7 +28,7 @@ st.divider()
 st.success("✅ Application deployed successfully on Streamlit Cloud")
 
 st.sidebar.info("""
-👨‍💻 Developed by **Shubham Dubey**  
+👨‍💻 Developed by Shubham Dubey
 🎯 AI / Data Science Project  
 🚀 Streamlit + Machine Learning
 """)
