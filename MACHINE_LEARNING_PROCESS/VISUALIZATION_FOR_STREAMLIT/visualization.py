@@ -71,7 +71,7 @@ for item in wordcloud_df['features'].dropna().apply(ast.literal_eval):
 
 #NOW ACCUMULATE THE ENTIRE LIST IN A STRING:
 feature_text = ' '.join(main)
-pickle.dump(feature_text, open('../../REAL_ESTATE_APPLICATION/feature_text.pkl', 'wb'))
+pickle.dump(feature_text, open('../../feature_text.pkl', 'wb'))
 # print(feature_text)
 print(df.columns)
 #HAVE TO KNOW NLP TO UNDERSTAND CODE BELOW:

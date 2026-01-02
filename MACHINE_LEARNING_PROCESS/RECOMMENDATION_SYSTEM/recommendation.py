@@ -27,7 +27,7 @@ pd.set_option('display.max_colwidth',None)
 warnings.filterwarnings('ignore')
 
 #READING THE DATASET:
-df = pd.read_csv('../../REAL_ESTATE_APPLICATION/appartments.csv').drop(22)
+df = pd.read_csv('../../appartments.csv').drop(22)
 # print(df.head())
 # print(df.columns)
 
@@ -90,7 +90,7 @@ recommended_properties = recommend_properties("DLF The Arbour")
 
 #------------------- CREATING THE SECOND RECOMMENDATION SYSTEM ------------------->
 #READING THE DATASET:
-df_appartments = pd.read_csv('../../REAL_ESTATE_APPLICATION/appartments.csv').drop(22)
+df_appartments = pd.read_csv('../../appartments.csv').drop(22)
 
 
 # Function to parse and extract the required features from the PriceDetails column
@@ -295,7 +295,7 @@ print(location_df[location_df['Bajghera Road']<2000]['Bajghera Road'].sort_value
 # pickle.dump(cosine_sim1, open('../../REAL_ESTATE_APPLICATION/cosine_sim1.pkl', 'wb'))
 # pickle.dump(cosine_sim2, open('../../REAL_ESTATE_APPLICATION/cosine_sim2.pkl', 'wb'))
 # pickle.dump(cosine_sim3, open('../../REAL_ESTATE_APPLICATION/cosine_sim3.pkl', 'wb'))
-pickle.dump(df, open('../../REAL_ESTATE_APPLICATION/df1.pkl', 'wb'))
+pickle.dump(df, open('../../df1.pkl', 'wb'))
 #------------------- CREATING THE THIRD RECOMMENDATION SYSTEM -------------------->
 #--------------------------------------------------------------------------------->
 

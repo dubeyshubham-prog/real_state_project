@@ -472,11 +472,11 @@ pipeline = Pipeline([
 pipeline.fit(x,y_transformed)
 
 import pickle
-with open('pipelines.pkl', 'wb') as file:
+with open('../../pipelines.pkl', 'wb') as file:
     pickle.dump(pipeline, file)
 
-with open('df.pkl', 'wb') as file:
-    pickle.dump(x, file)
+# with open('df.pkl', 'wb') as file:
+#     pickle.dump(x, file)
 
 print(x.head())
 #-------------------------------------------------------------------------------------------------------->
