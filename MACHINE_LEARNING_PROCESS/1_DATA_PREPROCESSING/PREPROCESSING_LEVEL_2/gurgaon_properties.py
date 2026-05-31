@@ -1,6 +1,4 @@
 #REQUIRED LIBRARIES=>
-from cmd import PROMPT
-
 import pandas as pd
 import numpy as np
 import warnings
@@ -19,7 +17,7 @@ pd.set_option('display.max_colwidth',None)
 warnings.filterwarnings('ignore')
 
 #READING THE DATASET IN CSV:
-df = pd.read_csv(r'/MACHINE_LEARNING_PROCESS/DATA_PREPROCESSING/PREPROCESSING_LEVEL_1/gurgaon_properties.csv')
+df = pd.read_csv(r'/MACHINE_LEARNING_PROCESS/1_DATA_PREPROCESSING/PREPROCESSING_LEVEL_1/gurgaon_properties.csv')
 
 #OBSERVING THE DATASET:
 '''

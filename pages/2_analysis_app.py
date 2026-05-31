@@ -1,109 +1,91 @@
-#REQUIRED LIBRARIES=>
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import pickle
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
-#===================>
 
-st.set_page_config(page_title='Plotting Demo')
-st.title('Analytics')
+st.set_page_config(page_title='EliteEstate | Market Analytics', layout='wide')
+st.title('📊 Market Trend Analytics')
+st.markdown("Explore regional housing pricing spread and layout concentrations.")
+st.markdown("---")
 
-#READING THE DATASET HERE===>
+# Data pipeline aggregation
 new_df = pd.read_csv('data_viz1.csv').drop(columns=['Unnamed: 0'])
-st.dataframe(new_df)
-
 feature_text = pickle.load(open('feature_text.pkl', 'rb'))
-#===========================>
 
-#DATA PREPROCESSING SECTION=>
-#GROUP BY ON THE BASIS OF sector:
-#FOR GRAPH_1
-group_df = new_df.groupby('sector')[['price',
-                                     'price_per_sqft',
-                                     'built_up_area',
-                                     'latitude',
-                                     'longitude']].mean()
+group_df = new_df.groupby('sector')[['price', 'price_per_sqft', 'built_up_area', 'latitude', 'longitude']].mean()
 
-#FOR GRAPH_5
 sector_list = new_df['sector'].unique().tolist()
-sector_list.insert(0,'Overall')
-# sector_list = pd.Series(sector_list)
-
-#FOR GRAPH_5
+sector_list.insert(0, 'Overall')
 temp_df = new_df[new_df['bedRoom'] <= 4]
-#===========================>
 
-#VISUALIZATION SECTION======>
-#GRAPH_1. PLOTTING MAP OF ALL SECTION:
-st.subheader('Visual representation of all sectors')
-fig1 = px.scatter_mapbox(group_df,
-                        lat='latitude',
-                        lon='longitude',
-                        color="price_per_sqft",
-                        size='built_up_area',
-                        color_continuous_scale=px.colors.cyclical.IceFire,
-                        zoom=10,
-                        mapbox_style="open-street-map",
-                        width=1200,
-                        height=700)
+# Layout: Geographic insights mapped large
+st.subheader('📍 Spatial Pricing Map Across Sectors')
+fig1 = px.scatter_mapbox(group_df, lat='latitude', lon='longitude', color="price_per_sqft",
+                        size='built_up_area', color_continuous_scale=px.colors.cyclical.IceFire,
+                        zoom=10, mapbox_style="open-street-map", height=500)
 st.plotly_chart(fig1, use_container_width=True)
 
-#GRAPH_2. PLOTTING FEATURES IN THE FORM OF TEXT:
-st.subheader('Visual representation of all features')
-wordcloud = WordCloud(width = 800, height = 800,
-                      background_color ='white',
-                      stopwords = set(['s']),  # Any stopwords you'd like to exclude
-                      min_font_size = 10).generate(feature_text)
+st.markdown("---")
 
-fig2, ax = plt.subplots(figsize=(8, 8))
-ax.imshow(wordcloud, interpolation='bilinear')
-ax.axis("off")
-plt.tight_layout(pad = 0)
-st.pyplot(fig2)
+# Layout: Creating side-by-side split dashboards to reduce layout scrolling
+left_col, right_col = st.columns(2)
 
-#GRAPH_3. SHOWING PROPERTY DISTRIBUTION WITH SUNBURST:
-st.subheader('Property distribution with sunburst')
-fig3 = px.sunburst(
-    new_df,
-    path=['bedRoom', 'property_type'],
-    values='price_per_sqft'
+with left_col:
+    st.subheader('☀️ Structural Property Breakdown (Sunburst)')
+    fig3 = px.sunburst(new_df, path=['bedRoom', 'property_type'], values='price_per_sqft')
+    st.plotly_chart(fig3, use_container_width=True)
+
+with right_col:
+    st.subheader('🏷️ Structural Features Cloud')
+    wordcloud = WordCloud(width=600, height=450, background_color='white', stopwords=set(['s']), min_font_size=10).generate(feature_text)
+    fig2, ax = plt.subplots(figsize=(6, 4.5))
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis("off")
+    plt.tight_layout(pad=0)
+    st.pyplot(fig2)
+
+st.markdown("---")
+
+# Layout: Interactive dynamic scatter plotting section
+st.subheader('📐 Size (Built-up Area) vs Pricing Scale')
+property_type_filter = st.segmented_control('Filter Classification', ['flat', 'house'], default='flat')
+
+fig4 = px.scatter(new_df[new_df['property_type'] == property_type_filter],
+                  x="built_up_area", y="price", color="bedRoom",
+                  color_continuous_scale=px.colors.sequential.Viridis)
+st.plotly_chart(fig4, use_container_width=True)
+
+st.markdown("---")
+
+# Layout: Sector breakdowns versus broader box plots
+b1, b2 = st.columns([1, 1])
+
+with b1:
+    st.subheader('🍰 Bedroom Quantities Percentage')
+    selected_sector = st.selectbox('Select target sector to review configuration profiles:', sector_list)
+    active_df = new_df if selected_sector == 'Overall' else new_df[new_df['sector'] == selected_sector]
+    fig5 = px.pie(active_df, names='bedRoom', hole=0.3)
+    st.plotly_chart(fig5, use_container_width=True)
+
+with b2:
+    st.subheader('📦 Price Range Dispersion (BHK Boxplot)')
+    fig6 = px.box(temp_df, x='bedRoom', y='price', color='bedRoom')
+    st.plotly_chart(fig6, use_container_width=True)
+
+# 1. Add a divider line in the sidebar
+st.sidebar.markdown("---")
+
+# 2. Add your developer title
+st.sidebar.markdown("### 👨‍💻 Developer Profile")
+st.sidebar.info("""
+**Shubham Dubey** 🎯 AI / Data Science Specialist
+""")
+
+# 3. Add the clickable portfolio button (REPLACE THE URL BELOW WITH YOUR LINK)
+st.sidebar.link_button(
+    label="🌐 Visit My Portfolio",
+    url="https://dazzling-pudding-0b3156.netlify.app/",
+    use_container_width=True
 )
-st.plotly_chart(fig3, use_container_width=True)
-
-#GRAPH_4. AREA VS PRICE SCATTER PLOT:
-st.subheader('Area vs Price')
-property_type = st.selectbox('Select on of the property types', ['flat','house'])
-if property_type == 'flat':
-    fig4 = px.scatter(new_df[new_df['property_type']=='flat'],
-                      x="built_up_area",
-                      y="price",
-                      color="bedRoom")
-    st.plotly_chart(fig4, use_container_width=True)
-else:
-    fig4 = px.scatter(new_df[new_df['property_type']=='house'],
-                      x="built_up_area",
-                      y="price",
-                      color="bedRoom")
-    st.plotly_chart(fig4, use_container_width=True)
-
-#GRAPH_5. VISUALIZATION OF PIE BEDROOMS USING PIE CHART:
-st.subheader('Bedroom percentage sector wise')
-selected_sector = st.selectbox('Select any preferred sector',sector_list)
-if selected_sector=='Overall':
-    fig5 = px.pie(new_df, names='bedRoom')
-    st.plotly_chart(fig5, use_container_width=True)
-else:
-    fig5 = px.pie(new_df[new_df['sector']==selected_sector], names='bedRoom')
-    st.plotly_chart(fig5, use_container_width=True)
-
-#GRAPH_6. BEDROOM TO PRICE COMPARISON USING BOX PLOT:
-st.subheader('Bedroom to price comparison')
-fig6 = px.box(temp_df,
-              x='bedRoom',
-              y='price',
-              color=temp_df['bedRoom'],
-              title='BHK Price Range')
-st.plotly_chart(fig6, use_container_width=True)
-#===========================>
